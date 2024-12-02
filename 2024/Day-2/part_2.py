@@ -2,7 +2,7 @@ import os
 import re
 
 
-def parse_stuff(file_path):
+def parse_the_file(file_path):
     with open(file_path) as file:
         lines = file.read().split("\n")
 
@@ -38,33 +38,35 @@ def check_max_diff(arr):
 
     return 1
 
-def remove_it(arr, i):
+def delete_element(arr, i):
     arr = arr[:]
     arr.pop(i)
     return arr
 
+def check(arr):
+    return bool(arr and (check_seq(arr, 0) or check_seq(arr, 1)) and check_max_diff(arr)) 
+
 
 if __name__ == "__main__":
-    _file_path = os.path.join(os.path.abspath(os.getcwd()), "data.txt")
+    file_path = os.path.join(os.path.abspath(os.getcwd()), "data.txt")
 
-    reports = parse_stuff(_file_path)
+    reports = parse_the_file(file_path)
     safe_reports = 0
+    
     for report in reports:
-        if report:
-            ultimate_flag = 0
-            ultimate_flag = (check_seq(report, 0) or check_seq(report, 1)) and check_max_diff(report)
-            if ultimate_flag:
-                safe_reports+=1
-                continue
-            else:
-                num = len(report)
-                for i in range(num):
-                    updated_report = remove_it(report, i)
-                    if updated_report:
-                        ultimate_flag = (check_seq(updated_report, 0) or check_seq(updated_report, 1)) and check_max_diff(updated_report)
-                        if ultimate_flag:
-                            safe_reports+=1
-                            break
+        ultimate_flag = 0
+        ultimate_flag = check(report)
+        safe_reports+=(1 and ultimate_flag)
+        
+        if not ultimate_flag:
+            num = len(report)
+            for i in range(num):
+                updated_report = delete_element(report, i)
+                ultimate_flag = check(updated_report)
+                
+                if ultimate_flag:
+                    safe_reports+=1
+                    break
 
 
 
