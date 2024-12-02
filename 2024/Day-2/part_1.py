@@ -2,7 +2,7 @@ import os
 import re
 
 
-def parse_stuff(file_path):
+def parse_the_file(file_path):
     with open(file_path) as file:
         return [[int(match) for match in re.findall(r"\S+", line)] for line in file.read().split("\n")]
 
@@ -18,7 +18,7 @@ def check_max_diff(arr):
 if __name__ == "__main__":
     file_path = os.path.join(os.path.abspath(os.getcwd()), "data.txt")
 
-    reports = parse_stuff(file_path)
+    reports = parse_the_file(file_path)
     safe_reports = 0
 
     for report in reports:
