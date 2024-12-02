@@ -18,22 +18,14 @@ def parse_stuff(file_path):
     return reports
 
 
-def check_inc_seq(arr):
+def check_seq(arr, flag):
     num = len(arr)
 
     for i in range(1, num):
-        if arr[i] <= arr[i - 1]:
+        if flag and arr[i] <= arr[i - 1]:
             return 0
-    return 1
-
-
-def check_dec_seq(arr):
-    num = len(arr)
-
-    for i in range(1, num):
-        if arr[i] >= arr[i - 1]:
+        elif flag == 0 and arr[i] >= arr[i-1]:
             return 0
-
     return 1
 
 
@@ -60,7 +52,7 @@ if __name__ == "__main__":
     for report in reports:
         if report:
             ultimate_flag = 0
-            ultimate_flag = (check_inc_seq(report) or check_dec_seq(report)) and check_max_diff(report)
+            ultimate_flag = (check_seq(report, 0) or check_seq(report, 1)) and check_max_diff(report)
             if ultimate_flag:
                 safe_reports+=1
                 continue
@@ -69,7 +61,7 @@ if __name__ == "__main__":
                 for i in range(num):
                     updated_report = remove_it(report, i)
                     if updated_report:
-                        ultimate_flag = (check_inc_seq(updated_report) or check_dec_seq(updated_report)) and check_max_diff(updated_report)
+                        ultimate_flag = (check_seq(updated_report, 0) or check_seq(updated_report, 1)) and check_max_diff(updated_report)
                         if ultimate_flag:
                             safe_reports+=1
                             break
